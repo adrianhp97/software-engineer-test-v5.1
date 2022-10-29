@@ -6,15 +6,13 @@ export enum RoomStatus {
 }
 
 export interface Room {
-  name: string;
-  status: RoomStatus;
-
-  checkIn(): void;
-  checkOut(): void;
-  cleaning(): void;
+  getName(): string;
   isAvailable(): boolean;
   isOccupied(): boolean;
-  isVacant(): boolean;
   isRepair(): boolean;
-  repair(): void;
+  isVacant(): boolean;
+  setAvailable(): void;
+  setOccupied(): void;
+  setRepair(): void;
+  setVacant(): void;
 }
