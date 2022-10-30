@@ -1,11 +1,7 @@
-export enum RoomStatus {
-  Available = "Available",
-  Occupied = "Occupied",
-  Vacant = "Vacant",
-  Repair = "Repair",
-}
+import type RoomStatus from "../modules/roomStatus";
 
-export interface Room {
+export interface RoomInterface {
+  changeStatus(status: RoomStatus): void;
   getName(): string;
   isAvailable(): boolean;
   isOccupied(): boolean;

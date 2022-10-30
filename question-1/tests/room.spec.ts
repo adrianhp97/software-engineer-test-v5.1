@@ -1,9 +1,7 @@
 import Room from "../src/modules/room";
 
-import type { Room as RoomInterface } from "../src/types/room";
-
 describe("testing Room class", () => {
-  let room: RoomInterface;
+  let room: Room;
   beforeEach(() => {
     room = new Room("room1");
   });

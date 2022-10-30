@@ -1,5 +1,7 @@
-import { RoomStatus } from "../types/room";
-import type { Room as RoomInterface } from "../types/room";
+import { AvailableStatus, OccupiedStatus, RepairStatus, VacantStatus } from "./roomStatus";
+
+import type { RoomInterface } from "../interface/room";
+import type RoomStatus from "./roomStatus";
 
 class Room implements RoomInterface {
   private name: string;
@@ -7,43 +9,47 @@ class Room implements RoomInterface {
 
   constructor(name: string) {
     this.name = name;
-    this.status = RoomStatus.Available;
+    this.status = new AvailableStatus(this);
   }
 
-  getName() {
+  changeStatus(status: RoomStatus): void {
+    this.status = status;
+  }
+
+  getName(): string {
     return this.name
   }
 
-  isAvailable() {
-    return this.status === RoomStatus.Available;
+  isAvailable(): boolean {
+    return this.status instanceof AvailableStatus;
   }
 
-  isOccupied() {
-    return this.status === RoomStatus.Occupied;
+  isOccupied(): boolean {
+    return this.status instanceof OccupiedStatus;
   }
 
-  isRepair() {
-    return this.status === RoomStatus.Repair;
+  isRepair(): boolean {
+    return this.status instanceof RepairStatus;
   }
 
-  isVacant() {
-    return this.status === RoomStatus.Vacant;
+  isVacant(): boolean {
+    return this.status instanceof VacantStatus;
   }
 
-  setAvailable() {
-    this.status = RoomStatus.Available;
+  setAvailable(): void {
+    this.status.setAvailable();
   }
 
-  setOccupied() {
-    this.status = RoomStatus.Occupied;
+  setOccupied(): void {
+    this.status.setOccupied();
   }
 
-  setRepair() {
-    this.status = RoomStatus.Repair;
+  setRepair(): void {
+    this.status.setRepair();
   }
 
-  setVacant() {
-    this.status = RoomStatus.Vacant;
+  setVacant(): void {
+    this.status.setVacant();
   }
 
 }
