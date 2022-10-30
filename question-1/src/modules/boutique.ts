@@ -1,58 +1,58 @@
-import { CHARACTER } from "../constants/character";
-
 import Room from "./room";
 
 import type { BoutiqueInterface } from "../interface/boutique";
+import RoomManager from "./roomManager";
 
 class Boutique implements BoutiqueInterface {
-  private rooms: Room[];
-  private numOfFloor: number;
-  private numOfRoomsPerFloor: number;
+  private rooms: Room[][];
+  private manager: RoomManager;
 
-  constructor(numOfFloor: number, numOfRoomsPerFloor: number) {
-    this.numOfFloor = numOfFloor;
-    this.numOfRoomsPerFloor = numOfRoomsPerFloor;
-
-    this.rooms = [];
-    for (let floor = 0; floor < numOfFloor; floor++) {
-      if (floor % 0 === 2) {
-        for (let room = 0; room < numOfRoomsPerFloor; room++) {
-          let roomName = `${floor + 1}${CHARACTER[room]}`;
-          this.rooms.push(new Room(roomName));
-        }
-      } else {
-        for (let room = 1; room >= 0; room--) {
-          let roomName = `${floor + 1}${CHARACTER[room]}`;
-          this.rooms.push(new Room(roomName));
-        }
-      }
+  constructor(rooms: Room[][], manager: RoomManager) {
+    this.rooms = rooms;
+    this.manager = manager;
+    this.manager.setBoutique(this);
+  }
+  
+  checkInRoom(): Room {
+    const { manager } = this;
+    if (manager.hasAvailable()) {
+      const room = manager.getNextAvailable();
+      room.setOccupied();
+      return room;
     }
+    throw new Error("No more room available");
+  }
+
+  checkOutRoom(name: string) {
+    const { manager } = this;
+    const room = manager.getRoomByName(name);
+    if (room) {
+      room.setVacant();
+    }
+    throw new Error("No room with provided name");
   }
   
-  checkInRoom() {
-    const availableRooms = this.getAvailableRooms();
-    availableRooms[0].setOccupied();
-    return availableRooms[0];
+  cleaningRoom(name: string) {
+    const { manager } = this;
+    const room = manager.getRoomByName(name);
+    if (room) {
+      room.setAvailable();
+      manager.resetAvailable();
+    }
+    throw new Error("No room with provided name");
   }
   
-  checkOutRoom(room: Room) {
-    room.setVacant();
-  }
-  
-  cleaningRoom(room: Room) {
-    room.setAvailable();
-  }
-  
-  getAllRooms() {
+  getAllRooms(): Room[][] {
     return this.rooms;
   }
   
-  getAvailableRooms() {
-    return this.rooms.filter(room => room.isAvailable());
-  }
-  
-  serviceRoom(room: Room) {
-    room.setRepair();
+  serviceRoom(name: string) {
+    const { manager } = this;
+    const room = manager.getRoomByName(name);
+    if (room) {
+      room.setRepair();
+    }
+    throw new Error("No room with provided name");
   }
 }
 
