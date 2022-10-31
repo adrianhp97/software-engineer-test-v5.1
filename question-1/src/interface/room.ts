@@ -1,5 +1,5 @@
+import type Boutique from "../modules/boutique";
 import type RoomStatus from "../modules/roomStatus";
-import type { BoutiqueInterface } from "./boutique";
 
 export interface RoomInterface {
   changeStatus(status: RoomStatus): void;
@@ -15,7 +15,7 @@ export interface RoomInterface {
 }
 
 export interface RoomManagerInterface {
-  setBoutique(boutique: BoutiqueInterface): void; 
+  setBoutique(boutique: Boutique): void;
 }
 
 export interface RoomIteratorInterface {
@@ -25,5 +25,6 @@ export interface RoomIteratorInterface {
 }
 
 export interface RoomFilterInterface {
-  getRoomByName(name: string): RoomInterface; 
+  getRoomByName(name: string): RoomInterface | null;
+  getRoomByStatus(status: string): RoomInterface[];
 }

@@ -1,7 +1,8 @@
 import Room from "./room";
 
-import type { BoutiqueInterface } from "../interface/boutique";
 import RoomManager from "./roomManager";
+
+import type { BoutiqueInterface } from "../interface/boutique";
 
 class Boutique implements BoutiqueInterface {
   private rooms: Room[][];
@@ -40,6 +41,16 @@ class Boutique implements BoutiqueInterface {
       manager.resetAvailable();
     }
     throw new Error("No room with provided name");
+  }
+
+  getAllOccupiedRooms(): Room[] {
+    const { manager } = this;
+    return manager.getRoomByStatus("occupied");
+  }
+
+  getAllVacantRooms(): Room[] {
+    const { manager } = this;
+    return manager.getRoomByStatus("vacant");
   }
   
   getAllRooms(): Room[][] {

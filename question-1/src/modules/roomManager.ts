@@ -4,20 +4,46 @@ import type Room from "./room";
 import type { RoomIteratorInterface, RoomFilterInterface, RoomManagerInterface } from "../interface/room";
 
 export default class RoomManager implements RoomManagerInterface, RoomIteratorInterface, RoomFilterInterface {
-  private boutique: Boutique;
+  private boutique: Boutique | null;
 
   private availableRooms: Room[];
   private roomIndexes: Record<string, number>;
 
+  constructor() {
+    this.boutique = null;
+    this.availableRooms = [];
+    this.roomIndexes = {};
+  }
+
   getNextAvailable(): Room {
-    const room = this.availableRooms.pop();
+    const room = this.availableRooms.pop() as Room;
     return room;
   }
 
-  getRoomByName(name: string): Room {
-    if (!this.boutique) return;
+  getRoomByName(name: string): Room | null {
+    if (!this.boutique) return null;
     const rooms = this.boutique.getAllRooms().flat();
-    return rooms.find((room) => room.getName() === name);
+    return rooms.find((room) => room.getName() === name) || null;
+  }
+
+  getRoomByStatus(status: string): Room[] {
+    if (!this.boutique) return [];
+    const rooms = this.boutique.getAllRooms().flat();
+    return rooms.filter(room => {
+      if (status === "available") {
+        return room.isAvailable();
+      }
+      if (status === "occupied") {
+        return room.isOccupied();
+      }
+      if (status === "repair") {
+        return room.isRepair();
+      }
+      if (status === "vacant") {
+        return room.isVacant();
+      }
+      return true;
+    })
   }
 
   hasAvailable(): boolean {

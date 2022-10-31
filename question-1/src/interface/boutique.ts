@@ -5,5 +5,7 @@ export interface BoutiqueInterface {
   checkOutRoom(name: string): void;
   cleaningRoom(name: string): void;
   getAllRooms(): Room[][];
+  getAllOccupiedRooms(): Room[];
+  getAllVacantRooms(): Room[];
   serviceRoom(name: string): void;
 }
