@@ -12,7 +12,7 @@ export default class Calculator {
   }
 
   execute(): void {
-
+    this.root = this.parseEquation(0, this.equation.length - 1);
   }
 
   private getComparatorPoin(operator: string): number {
@@ -23,6 +23,21 @@ export default class Calculator {
 
   getResult(): number {
     return this.result;
+  }
+
+  private getOperanValue(startIdx: number, endIdx: number): number {
+    const { equation } = this;
+
+    let operan = 0;
+    
+    for (let idx = startIdx; idx <= endIdx; idx++) {
+      if (!isNaN(+equation[idx])) {
+        operan *= 10;
+        operan += +equation[idx];
+      }
+    }
+
+    return operan;
   }
 
   private getOperatorIdx(startIdx: number, endIdx: number): number {
@@ -41,13 +56,14 @@ export default class Calculator {
         stack.pop();
         continue;
       }
-      if (stack.length > 0) continue;
       if (this.isOperator(currCharacter)) {
         if (operatorIdx === -1) {
           operatorIdx = idx;
           currentOperator = currCharacter;
         } else {
-          if (this.getComparatorPoin(currentOperator) > this.getComparatorPoin(currCharacter)) {
+          const currOperatorPoin = this.getComparatorPoin(currentOperator) + (stack.length * 10);
+          const currCharacterPoin = this.getComparatorPoin(currCharacter);
+          if (currCharacterPoin < currOperatorPoin) {
             operatorIdx = idx;
             currentOperator = currCharacter;
           }
@@ -62,10 +78,16 @@ export default class Calculator {
   }
 
   private parseEquation(startIdx: number, endIdx: number): Node | null {
-    return null;
+    const operatorIdx = this.getOperatorIdx(startIdx, endIdx);
+    if (operatorIdx === -1) {
+      return new Node(this.getOperanValue(startIdx, endIdx));
+    }
+    const left = this.parseEquation(startIdx, operatorIdx - 1);
+    const right = this.parseEquation(operatorIdx + 1, endIdx);
+    return new Node(operatorIdx, left, right);
   }
 
   printTree(): void {
-
+    const { root } = this;
   }
 }
