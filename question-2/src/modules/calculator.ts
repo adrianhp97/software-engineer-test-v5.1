@@ -87,7 +87,10 @@ export default class Calculator {
     return new Node(operatorIdx, left, right);
   }
 
-  printTree(): void {
-    const { root } = this;
+  printTree(node: Node | null, depth: number = 0): void {
+    const root = node || this.root;
+    console.log(`${"".padStart(depth * 2, "-")}${root?.getValue()}`);
+    this.printTree(root?.getLeft() || null, depth + 1);
+    this.printTree(root?.getRight() || null, depth + 1);
   }
 }
