@@ -18,7 +18,8 @@ export class CheckInCommand extends Command {
   }
 
   async execute(): Promise<void> {
-    this.boutique.checkInRoom();
+    const room = this.boutique.checkInRoom();
+    console.log(room.getName());
   }
 }
 
@@ -33,19 +34,23 @@ export class CheckOutCommand extends Command {
   async execute(): Promise<void> {
     const { boutique } = this;
     const rooms = boutique.getAllOccupiedRooms();
+    const choices = rooms.map(room => room.getName());
+    if (choices.length === 0) {
+      choices.push("No room for this options");
+    }
     const questions = [
       {
         name: "name",
         type: "list",
         message: "Please select the room",
-        choices: rooms.map(room => room.getName()),
-        default: rooms[0],
+        choices: choices,
+        default: choices[0],
       }
     ];
 
     const { name } = await inquirer.prompt(questions);
     this.roomName = name;
-    if (!this.roomName) return;
+    if (this.roomName === "No room for this options") return;
 
     this.boutique.checkOutRoom(this.roomName);
   }
@@ -62,19 +67,23 @@ export class CleanRoomCommand extends Command {
   async execute(): Promise<void> {
     const { boutique } = this;
     const rooms = boutique.getAllVacantRooms();
+    const choices = rooms.map(room => room.getName());
+    if (choices.length === 0) {
+      choices.push("No room for this options");
+    }
     const questions = [
       {
         name: "name",
         type: "list",
         message: "Please select the room",
-        choices: rooms.map(room => room.getName()),
-        default: rooms[0],
+        choices: choices,
+        default: choices[0],
       }
     ];
 
     const { name } = await inquirer.prompt(questions);
     this.roomName = name;
-    if (!this.roomName) return;
+    if (this.roomName === "No room for this options") return;
 
     this.boutique.cleaningRoom(this.roomName);
   }
@@ -91,19 +100,23 @@ export class RepairRoomCommand extends Command {
   async execute(): Promise<void> {
     const { boutique } = this;
     const rooms = boutique.getAllVacantRooms();
+    const choices = rooms.map(room => room.getName());
+    if (choices.length === 0) {
+      choices.push("No room for this options");
+    }
     const questions = [
       {
         name: "name",
         type: "list",
         message: "Please select the room",
-        choices: rooms.map(room => room.getName()),
-        default: rooms[0],
+        choices: choices,
+        default: choices[0],
       }
     ];
 
     const { name } = await inquirer.prompt(questions);
     this.roomName = name;
-    if (!this.roomName) return;
+    if (this.roomName === "No room for this options") return;
 
     this.boutique.serviceRoom(this.roomName);
   }
