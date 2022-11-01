@@ -15,7 +15,7 @@ export default class Calculator {
 
   }
 
-  getComparatorPoin(operator: string): number {
+  private getComparatorPoin(operator: string): number {
     if (operator === "*" || operator === "/") return 10;
     if (operator === "+" || operator === "-") return 1;
     return 0;
@@ -25,15 +25,43 @@ export default class Calculator {
     return this.result;
   }
 
-  getOperatorIdx(startIdx: number, endIdx: number): number {
-    return 0;
+  private getOperatorIdx(startIdx: number, endIdx: number): number {
+    const { equation } = this;
+
+    let operatorIdx = -1;
+    let stack = [];
+    let currentOperator = "";
+    for (let idx = startIdx; idx <= endIdx; idx++) {
+      const currCharacter = equation[idx];
+      if (currCharacter === "(") {
+        stack.push(currCharacter);
+        continue;
+      }
+      if (currCharacter === ")") {
+        stack.pop();
+        continue;
+      }
+      if (stack.length > 0) continue;
+      if (this.isOperator(currCharacter)) {
+        if (operatorIdx === -1) {
+          operatorIdx = idx;
+          currentOperator = currCharacter;
+        } else {
+          if (this.getComparatorPoin(currentOperator) > this.getComparatorPoin(currCharacter)) {
+            operatorIdx = idx;
+            currentOperator = currCharacter;
+          }
+        }
+      } 
+    }
+    return operatorIdx;
   }
 
-  isOperator(value: string): boolean {
+  private isOperator(value: string): boolean {
     return ["+", "-", "*", "/"].includes(value);
   }
 
-  parseEquation(startIdx: number, endIdx: number): Node | null {
+  private parseEquation(startIdx: number, endIdx: number): Node | null {
     return null;
   }
 
