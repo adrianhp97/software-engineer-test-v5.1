@@ -29,6 +29,7 @@ class Boutique implements BoutiqueInterface {
     const room = manager.getRoomByName(name);
     if (room) {
       room.setVacant();
+      return;
     }
     throw new Error("No room with provided name");
   }
@@ -39,6 +40,7 @@ class Boutique implements BoutiqueInterface {
     if (room) {
       room.setAvailable();
       manager.resetAvailable();
+      return;
     }
     throw new Error("No room with provided name");
   }
@@ -56,12 +58,22 @@ class Boutique implements BoutiqueInterface {
   getAllRooms(): Room[][] {
     return this.rooms;
   }
+
+  printMap(): void {
+    const { rooms } = this;
+    for (const level of rooms) {
+      const levelText = level.map((room) => `${room.getName()} - ${room.getStatusCode()}`).join('|');
+      console.log(levelText)
+      console.log("".padStart(levelText.length, "-"));
+    }
+  }
   
   serviceRoom(name: string) {
     const { manager } = this;
     const room = manager.getRoomByName(name);
     if (room) {
       room.setRepair();
+      return;
     }
     throw new Error("No room with provided name");
   }

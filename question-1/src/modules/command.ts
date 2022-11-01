@@ -45,6 +45,7 @@ export class CheckOutCommand extends Command {
 
     const { name } = await inquirer.prompt(questions);
     this.roomName = name;
+    if (!this.roomName) return;
 
     this.boutique.checkOutRoom(this.roomName);
   }
@@ -60,7 +61,7 @@ export class CleanRoomCommand extends Command {
 
   async execute(): Promise<void> {
     const { boutique } = this;
-    const rooms = boutique.getAllOccupiedRooms();
+    const rooms = boutique.getAllVacantRooms();
     const questions = [
       {
         name: "name",
@@ -73,6 +74,7 @@ export class CleanRoomCommand extends Command {
 
     const { name } = await inquirer.prompt(questions);
     this.roomName = name;
+    if (!this.roomName) return;
 
     this.boutique.cleaningRoom(this.roomName);
   }
@@ -88,7 +90,7 @@ export class RepairRoomCommand extends Command {
 
   async execute(): Promise<void> {
     const { boutique } = this;
-    const rooms = boutique.getAllOccupiedRooms();
+    const rooms = boutique.getAllVacantRooms();
     const questions = [
       {
         name: "name",
@@ -101,6 +103,7 @@ export class RepairRoomCommand extends Command {
 
     const { name } = await inquirer.prompt(questions);
     this.roomName = name;
+    if (!this.roomName) return;
 
     this.boutique.serviceRoom(this.roomName);
   }
@@ -112,6 +115,6 @@ export class GetAllRoomCommand extends Command {
   }
 
   async execute(): Promise<void> {
-    this.boutique.getAllRooms();
+    this.boutique.printMap();
   }
 }

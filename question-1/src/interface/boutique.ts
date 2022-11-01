@@ -7,5 +7,6 @@ export interface BoutiqueInterface {
   getAllRooms(): Room[][];
   getAllOccupiedRooms(): Room[];
   getAllVacantRooms(): Room[];
+  printMap(): void;
   serviceRoom(name: string): void;
 }

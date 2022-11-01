@@ -20,6 +20,14 @@ class Room implements RoomInterface {
     return this.name
   }
 
+  getStatusCode(): string {
+    if (this.isAvailable()) return "AV";
+    if (this.isOccupied()) return "OC";
+    if (this.isRepair()) return "RE";
+    if (this.isVacant()) return "VA";
+    return ""
+  }
+
   isAvailable(): boolean {
     return this.status instanceof AvailableStatus;
   }

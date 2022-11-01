@@ -16,7 +16,7 @@ export default class RoomManager implements RoomManagerInterface, RoomIteratorIn
   }
 
   getNextAvailable(): Room {
-    const room = this.availableRooms.pop() as Room;
+    const room = this.availableRooms.shift() as Room;
     return room;
   }
 

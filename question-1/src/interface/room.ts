@@ -4,6 +4,7 @@ import type RoomStatus from "../modules/roomStatus";
 export interface RoomInterface {
   changeStatus(status: RoomStatus): void;
   getName(): string;
+  getStatusCode(): string;
   isAvailable(): boolean;
   isOccupied(): boolean;
   isRepair(): boolean;
