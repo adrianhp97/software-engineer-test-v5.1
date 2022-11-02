@@ -14,6 +14,7 @@ describe("testing Room class", () => {
   it("should have correnct initial state", () => {
     expect(room.getName()).toBe("room1");
     expect(room.isAvailable()).toBe(true);
+    expect(room.getStatusCode()).toBe("AV");
   });
 
   it("should call setAvailable correctly", () => {

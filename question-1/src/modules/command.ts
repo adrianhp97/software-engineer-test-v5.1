@@ -52,7 +52,7 @@ export class CheckOutCommand extends Command {
     this.roomName = name;
     if (this.roomName === "No room for this options") return;
 
-    this.boutique.checkOutRoom(this.roomName);
+    boutique.checkOutRoom(this.roomName);
   }
 }
 
@@ -85,7 +85,7 @@ export class CleanRoomCommand extends Command {
     this.roomName = name;
     if (this.roomName === "No room for this options") return;
 
-    this.boutique.cleaningRoom(this.roomName);
+    boutique.cleaningRoom(this.roomName);
   }
 }
 
@@ -118,7 +118,7 @@ export class RepairRoomCommand extends Command {
     this.roomName = name;
     if (this.roomName === "No room for this options") return;
 
-    this.boutique.serviceRoom(this.roomName);
+    boutique.serviceRoom(this.roomName);
   }
 }
 
