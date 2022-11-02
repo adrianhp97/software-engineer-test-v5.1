@@ -37,7 +37,7 @@ The `/src` folder where all the code and definition is placed. All the test case
 
 # Installation
 1. Open bash terminal
-2. Run `./setup.sh` file
+2. Run `npm install` file
 
 # Run project
 1. Open bash terminal
