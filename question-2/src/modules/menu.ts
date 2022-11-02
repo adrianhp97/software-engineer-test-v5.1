@@ -1,5 +1,6 @@
 import clear from "clear";
 import inquirer from "inquirer";
+import { getPreorderArray } from "../utils/tree";
 
 import Calculator from "./calculator";
 
@@ -36,6 +37,8 @@ export default class Menu {
     if (isValid) {
       calculator.execute();
       console.log(`result is: ${calculator.getResult()}`);
+      console.log(`inorder:`)
+      console.log(getPreorderArray(calculator.getBinaryTree()));
       console.log("Tree structure:")
       console.log("=============================")
       calculator.printTree();

@@ -40,6 +40,7 @@ export default class Calculator {
 
   execute(): void {
     this.setupEquationToken();
+    if (!this.isValidCharacter()) return;
     this.root = this.parseEquation(0, this.equationToken.length - 1);
     this.result = this.calculateResult();
   }
@@ -52,6 +53,10 @@ export default class Calculator {
 
   getResult(): number {
     return this.result;
+  }
+
+  getBinaryTree(): Node | null {
+    return this.root;
   }
 
   private getOperanValue(startIdx: number, endIdx: number): string {
@@ -102,7 +107,7 @@ export default class Calculator {
   }
 
   isValidCharacter(): boolean {
-    const rule = new RegExp(/^[\s+-/()*0-9]+$/);
+    const rule = new RegExp(/^[*+-/()0-9 ]+$/);
     return rule.test(this.equation);
   }
 
@@ -119,8 +124,9 @@ export default class Calculator {
         token.push({ value: equation[idx], label: "operator" });
         idx++;
       } else {
-        let operan = "";
-        while ((operan === "" && this.isOperator(equation[idx])) || !isNaN(parseInt(equation[idx]))) {
+        let operan = equation[idx];
+        idx++;
+        while (!isNaN(parseInt(equation[idx]))) {
           operan += equation[idx];
           idx++;
         }
